@@ -13,16 +13,50 @@ class StatsAggregator {
     }
 
     async loadStats() {
-        // Simulate API call - replace with actual government API endpoints
-        const mockStats = [
-            { title: 'Population', value: '331.9M', source: 'Census Bureau' },
-            { title: 'GDP Growth', value: '2.1%', source: 'Bureau of Economic Analysis' },
-            { title: 'Unemployment Rate', value: '3.7%', source: 'Bureau of Labor Statistics' }
-        ];
+        const stats = [];
+        
+        try {
+            // Census Bureau Population API
+            const popResponse = await fetch('https://api.census.gov/data/2022/pep/population?get=POP_2022&for=us:*');
+            const popData = await popResponse.json();
+            stats.push({
+                title: 'US Population (2022)',
+                value: (parseInt(popData[1][0]) / 1000000).toFixed(1) + 'M',
+                source: 'Census Bureau'
+            });
+        } catch (e) {
+            stats.push({ title: 'US Population', value: 'N/A', source: 'Census Bureau' });
+        }
 
-        setTimeout(() => {
-            this.renderStats(mockStats);
-        }, 1000);
+        try {
+            // Bureau of Labor Statistics Unemployment Rate
+            const blsResponse = await fetch('https://api.bls.gov/publicAPI/v1/timeseries/data/LNS14000000?latest=true');
+            const blsData = await blsResponse.json();
+            const rate = blsData.Results.series[0].data[0].value;
+            stats.push({
+                title: 'Unemployment Rate',
+                value: rate + '%',
+                source: 'Bureau of Labor Statistics'
+            });
+        } catch (e) {
+            stats.push({ title: 'Unemployment Rate', value: 'N/A', source: 'Bureau of Labor Statistics' });
+        }
+
+        try {
+            // Federal Reserve Economic Data (FRED) GDP
+            const fredResponse = await fetch('https://api.stlouisfed.org/fred/series/observations?series_id=GDP&api_key=demo&file_type=json&limit=1&sort_order=desc');
+            const fredData = await fredResponse.json();
+            const gdp = (parseFloat(fredData.observations[0].value) / 1000).toFixed(1);
+            stats.push({
+                title: 'GDP (Trillions)',
+                value: '$' + gdp + 'T',
+                source: 'Federal Reserve'
+            });
+        } catch (e) {
+            stats.push({ title: 'GDP', value: 'N/A', source: 'Federal Reserve' });
+        }
+
+        this.renderStats(stats);
     }
 
     renderStats(stats) {
