@@ -1,0 +1,11 @@
+{
+  "name": "stats-aggregator-spa",
+  "version": "1.0.0",
+  "description": "Government Stats Aggregator SPA",
+  "scripts": {
+    "deploy": "powershell -ExecutionPolicy Bypass -File deploy.ps1"
+  },
+  "keywords": ["government", "stats", "spa", "aws", "s3"],
+  "author": "",
+  "license": "MIT"
+}

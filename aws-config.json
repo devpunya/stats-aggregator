@@ -1,0 +1,6 @@
+{
+  "bucketName": "stats-aggregator-spa",
+  "region": "us-east-1",
+  "indexDocument": "index.html",
+  "errorDocument": "index.html"
+}
