@@ -19,9 +19,11 @@ class StatsAggregator {
             // India Population from data.gov.in
             const popResponse = await fetch('https://api.data.gov.in/resource/9ef84268-d588-465a-a308-a864a43d0070?api-key=579b464db66ec23bdd000001cdd3946e44ce4aad7209ff7b23ac571b&format=json&limit=1');
             const popData = await popResponse.json();
+            const population = popData.records[0].total_population; 
             stats.push({
                 title: 'India Population',
-                value: '1.42B',
+                //value: '1.42B',
+                value: population.toLocaleString('en-IN'),
                 source: 'Government of India'
             });
         } catch (e) {
