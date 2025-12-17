@@ -9,6 +9,9 @@ Write-Host "Deploying SPA to S3 bucket: $BucketName" -ForegroundColor Green
 # Create S3 bucket
 aws s3 mb s3://$BucketName --region us-east-1
 
+# Disable block public access
+aws s3api put-public-access-block --bucket $BucketName --public-access-block-configuration "BlockPublicAcls=false,IgnorePublicAcls=false,BlockPublicPolicy=false,RestrictPublicBuckets=false"
+
 # Enable static website hosting
 aws s3 website s3://$BucketName --index-document index.html --error-document index.html
 
