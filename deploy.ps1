@@ -31,7 +31,7 @@ $policy = @"
 }
 "@
 
-$policy | Out-File -FilePath policy.json -Encoding utf8
+$policy | Out-File -FilePath policy.json -Encoding utf8 -NoNewline
 aws s3api put-bucket-policy --bucket $BucketName --policy file://policy.json
 Remove-Item policy.json
 
