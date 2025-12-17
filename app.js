@@ -24,10 +24,10 @@ class StatsAggregator {
                 title: 'India Population',
                 //value: '1.42B',
                 value: population.toLocaleString('en-IN'),
-                source: 'Government of India'
+                source: 'Government of India-API'
             });
         } catch (e) {
-            stats.push({ title: 'India Population', value: '1.42B', source: 'Government of India' });
+            stats.push({ title: 'India Population', value: '1.33B', source: 'Government of India' });
         }
 
         try {
