@@ -57,6 +57,7 @@ class StatsAggregator {
         }
 
         this.renderStats(stats);
+        this.renderChart(stats);
     }
 
     renderStats(stats) {
@@ -69,6 +70,43 @@ class StatsAggregator {
         `).join('');
 
         this.container.innerHTML = html;
+    }
+
+    renderChart(stats) {
+        const ctx = document.getElementById('statsChart').getContext('2d');
+        const chartData = {
+            labels: stats.map(stat => stat.title),
+            datasets: [{
+                label: 'India Government Statistics',
+                data: [
+                    1420, // Population in millions
+                    6.5,  // Repo rate
+                    7.2   // GDP growth
+                ],
+                backgroundColor: ['#3498db', '#e74c3c', '#2ecc71'],
+                borderColor: ['#2980b9', '#c0392b', '#27ae60'],
+                borderWidth: 2
+            }]
+        };
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'India Government Statistics Overview'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
     }
 
     showError(message) {
